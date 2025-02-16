@@ -8,13 +8,19 @@ namespace TestApi.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
+
         [Column("email")]
+        [EmailAddress]
+        [Required]
         public string Email { get; set; }
+
         [Column("name")]
+        [Required]
         public string Name { get; set; }
         private string passwordHash;
 
         [Column("password")]
+        [Required]
         public string PasswordHash {
             get
             {
@@ -25,6 +31,7 @@ namespace TestApi.Models
                 passwordHash = BCrypt.Net.BCrypt.HashPassword(value);
             }
         }
+
         [Column("registration_date")]
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 

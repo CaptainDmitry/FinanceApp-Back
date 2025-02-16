@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TestApi.DTOs;
 using TestApi.Models;
 
 namespace TestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -100,22 +101,6 @@ namespace TestApi.Controllers
         private bool UserExists(int id)
         {
             return _context.users.Any(e => e.Id == id);
-        }
-
-        // POST: api/Users/login
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest login)
-        {
-            var user = _context.users.FirstOrDefault(e => e.Email == login.Email);
-            if (user == null) return Unauthorized("Неверный email/пароль");
-            if (!user.VerifHashPassword(login.Password)) return Unauthorized("Неверный email/пароль");
-            return Ok(new { message = "Авторизация успешна.", userId = user.Id });
-        }
-    }
-
-    public class LoginRequest
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        }        
     }
 }
