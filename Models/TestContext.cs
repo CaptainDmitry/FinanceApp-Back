@@ -6,6 +6,7 @@ namespace TestApi.Models
     public class TestContext : DbContext
     {
         public DbSet<User> users { get; set; } = null!;
+        public TestContext(DbContextOptions<TestContext> options) : base(options) { }
         public TestContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

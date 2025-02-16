@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using TestApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<TestContext>(options =>
+                            options.UseNpgsql(builder.Configuration.GetConnectionString("Conn")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
