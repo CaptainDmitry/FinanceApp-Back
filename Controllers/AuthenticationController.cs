@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TestApi.DTOs;
+using TestApi.Helpers;
 using TestApi.Models;
 
 namespace TestApi.Controllers
@@ -22,7 +23,8 @@ namespace TestApi.Controllers
             var user = _context.users.FirstOrDefault(e => e.Email == login.Email);
             if (user == null) return Unauthorized("Неверный email/пароль");
             if (!user.VerifHashPassword(login.Password)) return Unauthorized("Неверный email/пароль");
-            return Ok(new { message = "Авторизация успешна.", userId = user.Id });
+            var token = JwtHelper.GenerateJwtToken(user.Id.ToString(), user.Name, "Admin");
+            return Ok(new { message = "Авторизация успешна.", Token = token });
         }
 
         //POST: api/auth/register

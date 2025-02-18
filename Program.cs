@@ -1,7 +1,28 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TestApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidAudience = "TestToken",
+            ValidIssuer = "MyTestToken",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret_key_key_key_key_123_key_123_key_123_key_123"))
+        };
+    });
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddDbContext<TestContext>(options =>
@@ -21,9 +42,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
