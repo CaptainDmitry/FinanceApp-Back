@@ -20,7 +20,7 @@ namespace TestApi.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest login)
         {         
-            var user = _context.users.FirstOrDefault(e => e.Email == login.Email);
+            var user = _context.Users.FirstOrDefault(e => e.Email == login.Email);
             if (user == null) return Unauthorized("Неверный email/пароль");
             if (!user.VerifHashPassword(login.Password)) return Unauthorized("Неверный email/пароль");
             var token = JwtHelper.GenerateJwtToken(user.Id.ToString(), user.Name, "Admin");
@@ -31,7 +31,7 @@ namespace TestApi.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterRequest newUser)
         {
-            if (_context.users.Any(x => x.Email == newUser.Email)) return BadRequest("Пользователь с таким email уже существует.");
+            if (_context.Users.Any(x => x.Email == newUser.Email)) return BadRequest("Пользователь с таким email уже существует.");
 
             var user = new User
             {
@@ -39,7 +39,7 @@ namespace TestApi.Controllers
                 Email = newUser.Email,
                 PasswordHash = newUser.Password
             };
-            _context.users.Add(user);
+            _context.Users.Add(user);
             _context.SaveChangesAsync();
             return Ok(new { message = "Регистрация прошла успешно" });
         }

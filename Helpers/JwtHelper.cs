@@ -7,8 +7,8 @@ namespace TestApi.Helpers
 {
     public static class JwtHelper
     {
-        private const string Key = "secret_key_key_key_key_123_key_123_key_123_key_123";
-        private static readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+        private const string _key = "secret_key_key_key_key_123_key_123_key_123_key_123";
+        private static readonly SymmetricSecurityKey _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
 
         public static string GenerateJwtToken(string userId, string userName, string role)
         {
@@ -23,7 +23,7 @@ namespace TestApi.Helpers
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(5),
-                SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256),
+                SigningCredentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256),
                 Issuer = "MyTestToken",
                 Audience = "TestToken"
             };

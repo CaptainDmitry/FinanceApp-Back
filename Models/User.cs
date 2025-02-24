@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TestApi.Models
 {
@@ -17,18 +18,18 @@ namespace TestApi.Models
         [Column("name")]
         [Required]
         public string Name { get; set; }
-        private string passwordHash;
+        private string _passwordHash;
 
         [Column("password")]
         [Required]
         public string PasswordHash {
             get
             {
-                return passwordHash;
+                return _passwordHash;
             }
             set
             {
-                passwordHash = BCrypt.Net.BCrypt.HashPassword(value);
+                _passwordHash = BCrypt.Net.BCrypt.HashPassword(value);
             }
         }
 
@@ -37,7 +38,12 @@ namespace TestApi.Models
 
         public bool VerifHashPassword(string password)
         {
-            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+            return BCrypt.Net.BCrypt.Verify(password, _passwordHash);
         }
+
+        [JsonIgnore]
+        public List<Account> Accounts { get; set; } = new List<Account>();
+        [JsonIgnore]
+        public List<Category> Categories { get; set; } = new List<Category>();
     }
 }
