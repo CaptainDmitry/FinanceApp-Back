@@ -22,7 +22,7 @@ namespace TestApi.Helpers
             var tokenDesc = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                //Expires = DateTime.UtcNow.AddMinutes(5), // Время жизни токена
                 SigningCredentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256),
                 Issuer = "MyTestToken",
                 Audience = "TestToken"

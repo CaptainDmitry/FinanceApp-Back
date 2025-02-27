@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateAudience = true,
             ValidateIssuer = true,
-            ValidateLifetime = true,
+            ValidateLifetime = false, // Проверка жизни токена!
             ValidateIssuerSigningKey = true,
             ValidAudience = "TestToken",
             ValidIssuer = "MyTestToken",
