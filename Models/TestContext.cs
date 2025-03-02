@@ -12,6 +12,7 @@ namespace TestApi.Models
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Account> Accounts { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Transaction> Transactions { get; set; } = null!;
         public TestContext(DbContextOptions<TestContext> options, IHttpContextAccessor httpContextAccessor) : base(options) 
         {
             _httpContextAccessor = httpContextAccessor;

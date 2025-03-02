@@ -4,12 +4,13 @@ using TestApi.Models;
 
 namespace TestApi.Helpers
 {
-    public class MappingProfile : Profile
+    public class MapperProfile : Profile
     {
-        public MappingProfile()
+        public MapperProfile()
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<Account, AccountDto>();
+            CreateMap<Transaction, TransactionDto>();
         }
 
     }

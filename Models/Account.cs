@@ -12,5 +12,14 @@ namespace TestApi.Models
         [Required]
         [Column("name")]
         public string Name { get; set; }
+
+        private decimal _balance = 0;
+        [Column("balance")]
+        public decimal Balance
+        {
+            get => Math.Round(_balance, 2);
+            set => _balance = Math.Round(value, 2);
+        }
+
     }
 }
