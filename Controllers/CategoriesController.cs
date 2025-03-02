@@ -28,9 +28,11 @@ namespace TestApi.Controllers
 
         // GET: api/Categories
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
-            var categorys = await _context.Categories.ToListAsync();
+            var userId = _context.GetCurrentUserId();
+            var categorys = await _context.Categories.Where(x => x.UserId == userId).ToListAsync();
             return _mapper.Map<List<CategoryDto>>(categorys);
         }
 

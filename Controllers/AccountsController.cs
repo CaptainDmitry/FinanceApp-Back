@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,11 @@ namespace TestApi.Controllers
 
         // GET: api/Accounts
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<AccountDto>>> GetAccounts()
         {
-            var accounts = await _context.Accounts.ToListAsync();
+            var userId = _context.GetCurrentUserId();
+            var accounts = await _context.Accounts.Where(x => x.UserId == userId).ToListAsync();
             return _mapper.Map<List<AccountDto>>(accounts);
         }
 

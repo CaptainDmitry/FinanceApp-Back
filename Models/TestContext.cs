@@ -67,13 +67,13 @@ namespace TestApi.Models
             }
         }
 
-        private int GetCurrentUserId()
+        public int GetCurrentUserId()
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
             if (user == null || !user.Identity.IsAuthenticated)
             {
-                return -1; // Значение по умолчанию
+                throw new UnauthorizedAccessException("Пользователь не авторизован.");
             }
             int id = int.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
             return id;
